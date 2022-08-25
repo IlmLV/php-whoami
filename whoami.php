@@ -1,7 +1,7 @@
 <?php
 
 if(php_sapi_name() == 'cli')
-	die("Currently no support for CLI.\n");
+    die("Currently no support for CLI.\n");
 
 header('Content-Type: text/plain; charset=utf-8');
 
