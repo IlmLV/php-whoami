@@ -36,7 +36,10 @@ X-Https: 1
 ```
 
 ## Usage
-Just copy whoami.php file to your desired location.
+Just copy whoami.php file to your desired location and execute as HTTP request.
+
+## Limitations
+Currently only supports HTTP requests, no CLI support.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
