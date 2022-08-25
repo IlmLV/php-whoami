@@ -5,10 +5,13 @@
 # PHP WHO AM I script
 Simple PHP script for request diagnostics.
 
-## Response
-```bash
+## Usage
+Just copy whoami.php file to your desired location and execute as HTTP request.
+
+GET /whoamip.php
+```yaml
 GET: /whoami/ HTTP/1.1
-Client-IP: 10.0.0.100
+IP: 10.0.0.100
 Server-IP: 10.0.0.1
 Method: GET
 Scheme: https
@@ -35,8 +38,12 @@ Upgrade-Insecure-Requests: 1
 X-Https: 1
 ```
 
-## Usage
-Just copy whoami.php file to your desired location and execute as HTTP request.
+Also, it is possible to request only single attribute response.
+
+GET /whoamip.php?what=ip
+```
+10.0.0.100
+```
 
 ## Limitations
 Currently only supports HTTP requests, no CLI support.
