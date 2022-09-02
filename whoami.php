@@ -38,7 +38,6 @@ function getArrayKeyValue($needle, $haystack) {
 }
 
 $attr = [
-    //'Hostname' =>  gethostname(),
     $_SERVER['REQUEST_METHOD'] => $_SERVER['REQUEST_URI'].' '.$_SERVER['SERVER_PROTOCOL'],
     'IP' => $_SERVER['REMOTE_ADDR'],
     'Server-IP' => $_SERVER['SERVER_ADDR'],
@@ -49,9 +48,7 @@ $attr = [
     'Status' => http_response_code(),
     'Protocol' => $_SERVER['SERVER_PROTOCOL'],
     'Time' => $_SERVER['REQUEST_TIME_FLOAT'],
-    'TZ' => $_SERVER['TZ'],
-    'User-Agent' => $_SERVER['HTTP_USER_AGENT'],
-] + getRequestHeaders(['HTTP_HOST', 'HTTP_USER_AGENT']);
+] + getRequestHeaders();
 
 // Select single attribute response
 if (!empty($_GET['what'])) {
