@@ -44,6 +44,26 @@ GET /whoamip.php?what=ip
 10.0.0.100
 ```
 
+It is possible to format response as json.
+
+GET /whoamip.php?format=json
+```json
+{
+  "get" : "/?format=json HTTP/1.1",
+  "ip" : "10.0.0.100",
+  "server_ip" : "10.0.0.1",
+  "method" : "GET",
+  "scheme" : "https",
+  "status" : 200,
+  "protocol" : "HTTP/1.1",
+  "time" : 1661419537.4819,
+  "host" : "whoami.localhost",
+  "accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+  "uri" : "/?format=json",
+  "user_agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+}
+```
+
 ## Limitations
 Currently only supports HTTP requests, no CLI support.
 

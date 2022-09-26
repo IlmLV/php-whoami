@@ -26,15 +26,34 @@ function getRequestHeaders($exceptions = []) {
  * Case-insensitive search for present array key value
  * @param string $needle
  * @param array $haystack
- * @return string|bool The present key value, or false
+ * @return mixed|bool The present key value, or false
  */
-function getArrayKeyValue($needle, $haystack) {
+function insensitiveKeyValue($needle, $haystack) {
     foreach ($haystack as $key => $value) {
         if (strtolower($needle) == strtolower($key)) {
-            return (string) $value;
+            return $value;
         }
     }
     return false;
+}
+
+/**
+ * Convert array keys to snake case
+ * @param array $array
+ * @return array with snake_case keys
+ */
+function snakeCaseArrayKeys($array) {
+    $result = [];
+    foreach ($array as $k => $v) {
+        $separators = [' ', '_', '-', '·'];
+        foreach ($separators as $sep) {
+            if(strpos($k, $sep) !== false) {
+                $k = implode('_', array_map('ucfirst', explode($sep, $k)));
+            }
+        }
+        $result[strtolower($k)] = $v;
+    }
+    return $result;
 }
 
 $attr = [
@@ -50,20 +69,46 @@ $attr = [
     'Time' => $_SERVER['REQUEST_TIME_FLOAT'],
 ] + getRequestHeaders();
 
-// Select single attribute response
-if (!empty($_GET['what'])) {
-    $what = $_GET['what'];
-    if (($whatIs = getArrayKeyValue($what, $attr)) !== false) {
-        echo $whatIs;
-    }
-    else {
+
+// Select response formatter
+$format = null;
+if (!empty($_GET['format'])) {
+    $format = strtolower($_GET['format']);
+    if (!in_array($_GET['format'], ['plain', 'json'])) {
         http_response_code(400);
-        echo "ERROR: `what` attribute `$what` not found.";
+        echo "ERROR: `format` attribute `$format` not found.";
+        exit(1);
     }
 }
-// Return all attributes
+
+// Select single attribute response
+$what = null;
+if (!empty($_GET['what'])) {
+    $what = strtolower($_GET['what']);
+    if (!insensitiveKeyValue($what, $attr)) {
+        http_response_code(400);
+        echo "ERROR: `what` attribute `{$what}` not found.";
+        exit(1);
+    }
+}
+
+$response = $what ? insensitiveKeyValue($what, $attr) : $attr;
+
+if ($format === 'json') {
+    header('Content-type: application/json; charset=utf-8');
+
+    $response = is_array($response) ? snakeCaseArrayKeys($response) : $response;
+    echo json_encode($response);
+}
 else {
-    foreach ($attr as $key => $value) {
-        echo "$key: $value\n";
+    header('Content-Type: text/plain; charset=utf-8');
+
+    if (is_array($response)) {
+        foreach ($response as $key => $value) {
+            echo $key . ': '. ($value ?: 'N/A') . PHP_EOL;
+        }
+    }
+    else {
+        echo $response;
     }
 }
