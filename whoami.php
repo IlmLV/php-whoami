@@ -1,7 +1,7 @@
 <?php
 
 if(php_sapi_name() == 'cli')
-    die("Currently no support for CLI.\n");
+    die("No support for CLI.\n");
 
 header('Content-Type: text/plain; charset=utf-8');
 
@@ -12,8 +12,11 @@ header('Content-Type: text/plain; charset=utf-8');
  */
 function getRequestHeaders($exceptions = []) {
     $headers = array();
+    if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+        $headers['authorization'] = 'Basic ' . base64_encode($_SERVER['PHP_AUTH_USER'] . ':' . $_SERVER['PHP_AUTH_PW']);
+    }
     foreach($_SERVER as $key => $value) {
-        if (substr($key, 0, 5) <> 'HTTP_' || in_array($key, $exceptions)) {
+        if (($key !== 'PHP_AUTH_USER' && substr($key, 0, 5) <> 'HTTP_') || in_array($key, $exceptions)) {
             continue;
         }
         $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
