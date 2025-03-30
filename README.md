@@ -8,15 +8,15 @@ Simple PHP script for request diagnostics. Helps to find out server ip, client i
 ## Usage
 Just copy whoami.php file to your desired location and execute as HTTP request.
 
-GET /whoamip.php
+GET /
 ```yaml
-GET: /whoamip.php HTTP/1.1
+GET: / HTTP/1.1
 IP: 10.0.0.100
 Server-IP: 10.0.0.1
 Method: GET
 Scheme: https
 Host: whoami.localhost
-Uri: /whoamip.php
+Uri: /
 Status: 200
 Protocol: HTTP/1.1
 Time: 1661419537.4819
@@ -41,23 +41,23 @@ X-Https: 1
 
 Also, it is possible to request only single attribute response.
 
-GET /whoamip.php?what=ip
+GET /?what=ip
 ```
 10.0.0.100
 ```
 
 It is possible to format response as json.
 
-GET /whoamip.php?format=json
+GET /?format=json
 ```json
 {
-  "get" : "/whoamip.php?format=json HTTP/1.1",
+  "get" : "/?format=json HTTP/1.1",
   "ip" : "10.0.0.100",
   "server_ip" : "10.0.0.1",
   "method" : "GET",
   "scheme" : "https",
   "host" : "whoami.localhost",
-  "uri" : "/whoamip.php?format=json",
+  "uri" : "/?format=json",
   "status" : 200,
   "protocol" : "HTTP/1.1",
   "time" : 1661419537.4819,
