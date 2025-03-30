@@ -6,7 +6,7 @@
 Simple PHP script for request diagnostics. Helps to find out server ip, client ip, request method, scheme, used protocol, user-agent, all request headers.
 
 ## Usage
-Just copy whoami.php file to your desired location and execute as HTTP request.
+Just copy `public/index.php` file to your desired location and execute as HTTP request.
 
 GET /
 ```yaml
